@@ -1,0 +1,742 @@
+package za.ac.cput.StudentDeskGui;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
+import javax.swing.*;
+import java.util.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
+import za.ac.cput.APScalc.CPUTPointsCalculation;
+import za.ac.cput.APScalc.SUaggregateCalculation;
+import za.ac.cput.APScalc.UCTPointsCalculation;
+import za.ac.cput.APScalc.UWCPointsCalculation;
+import za.ac.cput.Links.Links;
+import za.ac.cput.domain.ApsResults;
+import za.ac.cput.domain.Student;
+import za.ac.cput.domain.UWCcourseQualify;
+import za.ac.cput.fileWriting.WriteApsToFile;
+
+public class SDGuiDemo extends JFrame implements ActionListener{
+    
+    public Student student1;
+    
+    private JPanel panelWest, panelWestInner, panelEast, panelEastInner, panelEastInnerNorth, panelNorth,
+            resultPane, resultPane2, resultPaneUWC, resultPaneUCT, resultPaneCPUT, resultPaneStell, centerPane, panelEastInnerFal, panelEastInner2, panelEastInner3, panelEastInner4,
+            panelEastInner5, panelEastInner6, panelEastInner7, panelEastInner8, disadvPane, nbtPane, courseListPane, courseListLblPane, courseListBoxPane, apsResultLblPane,
+            saveBtnPane;
+    private JMenuBar menuBar;
+    private JMenu menu;
+    private JMenuItem m1, m2, m3;
+    private JButton btnHome, btnLinks, btnFaq, downloads, calcBtn, clearBtn, disadvFactorLinkBtn, nbtBtn, saveBtn;
+    private JTextField textFal, textEast1, textEast2, textEast3, textEast4, textEast5, textEast6, textEast7, textEast8, resultText, resultText2, resultText3, resultText4, resultText5, resultText6, resultText7,
+            textNbtAl, textNbtQl, textNbtMat, textDisadv;
+    private JLabel lblTop, lblResult, lblResult2, lblResult3, lblResult4, lblResult5, lblResult6, lblResult7, lblLang, lblFal, lblMath, lblLo, lblNextBest1, lblNextBest2, lblNextBest3,
+            additionalSub1, additionalSub2, lblBlank, percentage1, percentageFal, percentage2, percentage3, percentage4, percentage5,
+            percentage6, percentage7, percentage8,
+            nbtLbl, nbtAlScore, nbtQlScore, nbtMatScore, disadvScore, qualifyForLbl, apsResultLbl, uwcLbl, uwcScoreLbl, uctScoreLbl1, uctScoreLbl2, uctScoreLbl3, cputScoreLbl1, cputScoreLbl2, stellScoreLbl;
+    private JComboBox comboBox1, comboBox2, comboBoxFal, comboBox3, comboBox4, comboBox5, comboBox6,
+            comboBox7, comboBox8;
+    private JTable resultTable, courseTableUWC, courseTableUCT, courseTableCput, courseTableSu;
+    private JScrollPane scrollArea, scrollAreaApsResult, scrollAreaUWC;
+    private JTabbedPane tabbedPane1;
+
+    private DefaultTableModel tableModel, tableModelUWC, tableModelUCT, tableModelCPUT, tableModelSu;
+    
+    public SDGuiDemo() {
+        super("Calculate APS");
+
+        panelWest = new JPanel();
+        panelWestInner = new JPanel();
+        panelWestInner.setBackground(new Color(0, 102, 102));
+        panelEast = new JPanel();
+        panelEast.setBackground(new Color(0, 102, 102));
+        panelEastInner = new JPanel();
+        panelEastInner.setBackground(new Color(0, 102, 102));
+        panelEastInnerFal = new JPanel();
+        panelEastInnerFal.setBackground(new Color(0, 102, 102));
+        panelEastInner2 = new JPanel();
+        panelEastInner2.setBackground(new Color(0, 102, 102));
+        panelEastInner3 = new JPanel();
+        panelEastInner3.setBackground(new Color(0, 102, 102));
+        panelEastInner4 = new JPanel();
+        panelEastInner4.setBackground(new Color(0, 102, 102));
+        panelEastInner5 = new JPanel();
+        panelEastInner5.setBackground(new Color(0, 102, 102));
+        panelEastInner6 = new JPanel();
+        panelEastInner6.setBackground(new Color(0, 102, 102));
+        panelEastInner7 = new JPanel();
+        panelEastInner7.setBackground(new Color(0, 102, 102));
+        panelEastInner8 = new JPanel();
+        panelEastInner8.setBackground(new Color(0, 102, 102));
+        panelEastInnerNorth = new JPanel();
+        panelNorth = new JPanel();
+        panelNorth.setBackground(new Color(0, 102, 102));
+        nbtPane = new JPanel();
+        nbtPane.setBackground(new Color(0, 102, 102));
+        disadvPane = new JPanel();
+        disadvPane.setBackground(new Color(0, 102, 102));
+        resultPane = new JPanel();
+        resultPane.setBackground(new Color(0, 102, 102));
+        resultPane2 = new JPanel();
+        resultPaneUWC = new JPanel();
+        resultPaneUCT = new JPanel();
+        resultPaneCPUT = new JPanel();
+        resultPaneStell = new JPanel();
+        centerPane = new JPanel();
+        centerPane.setBackground(new Color(0, 102, 102));
+        courseListPane = new JPanel();
+        courseListLblPane = new JPanel();
+        courseListLblPane.setSize(600, 30);
+        courseListBoxPane = new JPanel();
+        apsResultLblPane = new JPanel();
+        saveBtnPane = new JPanel();
+        saveBtnPane.setBackground(new Color(0, 102, 102));
+        
+        scrollArea = new JScrollPane();
+        scrollAreaUWC = new JScrollPane();
+        scrollAreaApsResult = new JScrollPane();
+
+        panelWest.setPreferredSize(new Dimension(150, 300));
+        panelWest.setBackground(new Color(0, 102, 102));
+        //panelEast.setPreferredSize(new Dimension(700, 600));
+        scrollArea.setPreferredSize(new Dimension(700, 500));
+        scrollAreaApsResult.setPreferredSize(new Dimension(1000, 100));
+
+        scrollArea.setViewportView(panelEast);
+        scrollAreaUWC.setViewportView(courseListPane);
+        //scrollAreaApsResult.setViewportView(resultPane2);
+        
+        menuBar = new JMenuBar();
+        menu = new JMenu("Menu");
+        m1 = new JMenuItem("Item 1");
+        m2 = new JMenuItem("Item 2");
+        m3 = new JMenuItem("Item 3");
+        
+        btnHome = new JButton("Home");
+        btnLinks = new JButton("Useful Links");
+        btnFaq = new JButton("FAQ's");
+        calcBtn = new JButton("Go");
+        clearBtn = new JButton("Clear");
+        downloads = new JButton("Downloads");
+        disadvFactorLinkBtn = new JButton(">Get disadvantage factor<");
+        nbtBtn = new JButton(">Get NBT Score<");
+        saveBtn = new JButton("Save");
+
+        textFal = new JTextField(6);
+        textEast1 = new JTextField(6);
+        textEast2 = new JTextField(6);
+        textEast3 = new JTextField(6);
+        textEast4 = new JTextField(6);
+        textEast5 = new JTextField(6);
+        textEast6 = new JTextField(6);
+        textEast7 = new JTextField(6);
+        textEast8 = new JTextField(6);
+        textDisadv = new JTextField(6);
+        textNbtAl = new JTextField(6);
+        textNbtQl = new JTextField(6);
+        textNbtMat = new JTextField(6);
+        resultText = new JTextField(6);
+        resultText2 = new JTextField(6);
+        resultText3 = new JTextField(6);
+        resultText4 = new JTextField(6);
+        resultText5 = new JTextField(6);
+        resultText6 = new JTextField(6);
+        resultText7 = new JTextField(6);
+
+        lblTop = new JLabel("Student_Desk");
+        //lblTop.setFont(new Font("Arial", Font.BOLD, 16));
+        lblTop.setFont(new java.awt.Font("Showcard Gothic", 1, 24));
+        lblTop.setForeground(new java.awt.Color(255, 255, 255));
+        nbtLbl = new JLabel("NBT Results: ");
+        nbtLbl.setForeground(new java.awt.Color(255, 255, 255));
+        nbtAlScore = new JLabel("AL Score: ");
+        nbtAlScore.setForeground(new java.awt.Color(255, 255, 255));
+        nbtQlScore = new JLabel("QL Score: ");
+        nbtQlScore.setForeground(new java.awt.Color(255, 255, 255));
+        nbtMatScore = new JLabel("MAT Score: ");
+        nbtMatScore.setForeground(new java.awt.Color(255, 255, 255));
+        lblResult = new JLabel("UWC Result: ");
+        lblResult.setForeground(new Color(0, 102, 102));
+        lblResult2 = new JLabel("UCT non-science: ");
+        lblResult2.setForeground(new Color(0, 102, 102));
+        lblResult2.setPreferredSize(new Dimension(160, 20));
+        lblResult3 = new JLabel("UCT Health Sciences: ");
+        lblResult3.setForeground(new Color(0, 102, 102));
+        lblResult3.setPreferredSize(new Dimension(160, 20));
+        lblResult4 = new JLabel("UCT Science Faculty: ");
+        lblResult4.setForeground(new Color(0, 102, 102));
+        lblResult4.setPreferredSize(new Dimension(160, 20));
+        lblResult5 = new JLabel("CPUT Method 1: ");
+        lblResult5.setForeground(new Color(0, 102, 102));
+        lblResult5.setPreferredSize(new Dimension(160, 20));
+        lblResult6 = new JLabel("CPUT Method 2: ");
+        lblResult6.setForeground(new Color(0, 102, 102));
+        lblResult6.setPreferredSize(new Dimension(160, 20));
+        lblResult7 = new JLabel("Stellenbosch University: ");
+        lblResult7.setForeground(new Color(0, 102, 102));
+        lblLang = new JLabel("First language: ");
+        lblLang.setPreferredSize(new Dimension(222, 20));
+        lblLang.setForeground(new java.awt.Color(255, 255, 255));
+        lblFal = new JLabel("First additional language: ");
+        lblFal.setPreferredSize(new Dimension(222, 20));
+        lblFal.setForeground(new java.awt.Color(255, 255, 255));
+        lblMath = new JLabel("Mathematics or Mathematics Literacy: ");
+        lblMath.setPreferredSize(new Dimension(222, 20));
+        lblMath.setForeground(new java.awt.Color(255, 255, 255));
+        lblLo = new JLabel("Life Orientation: ");
+        lblLo.setPreferredSize(new Dimension(222, 20));
+        lblLo.setForeground(new java.awt.Color(255, 255, 255));
+        lblNextBest1 = new JLabel("Next best subject 1: ");
+        lblNextBest1.setPreferredSize(new Dimension(222, 20));
+        lblNextBest1.setForeground(new java.awt.Color(255, 255, 255));
+        lblNextBest2 = new JLabel("Next best subject 2: ");
+        lblNextBest2.setForeground(new java.awt.Color(255, 255, 255));
+        lblNextBest2.setPreferredSize(new Dimension(222, 20));
+        lblNextBest3 = new JLabel("Next best subject 3: ");
+        lblNextBest3.setPreferredSize(new Dimension(222, 20));
+        lblNextBest3.setForeground(new java.awt.Color(255, 255, 255));
+        additionalSub1 = new JLabel("Additional subject 1: ");
+        additionalSub1.setPreferredSize(new Dimension(222, 20));
+        additionalSub1.setForeground(new java.awt.Color(255, 255, 255));
+        additionalSub2 = new JLabel("Additional subject 2: ");
+        additionalSub2.setPreferredSize(new Dimension(222, 20));
+        additionalSub2.setForeground(new java.awt.Color(255, 255, 255));
+        percentage1 = new JLabel("Percentage acheived: ");
+        percentage1.setForeground(new java.awt.Color(255, 255, 255));
+        percentageFal = new JLabel("Percentage acheived: ");
+        percentageFal.setForeground(new java.awt.Color(255, 255, 255));
+        percentage2 = new JLabel("Percentage acheived: ");
+        percentage2.setForeground(new java.awt.Color(255, 255, 255));
+        percentage3 = new JLabel("Percentage acheived: ");
+        percentage3.setForeground(new java.awt.Color(255, 255, 255));
+        percentage4 = new JLabel("Percentage acheived: ");
+        percentage4.setForeground(new java.awt.Color(255, 255, 255));
+        percentage5 = new JLabel("Percentage acheived: ");
+        percentage5.setForeground(new java.awt.Color(255, 255, 255));
+        percentage6 = new JLabel("Percentage acheived: ");
+        percentage6.setForeground(new java.awt.Color(255, 255, 255));
+        percentage7 = new JLabel("Percentage acheived: ");
+        percentage7.setForeground(new java.awt.Color(255, 255, 255));
+        percentage8 = new JLabel("Percentage acheived: ");
+        percentage8.setForeground(new java.awt.Color(255, 255, 255));
+        
+        qualifyForLbl = new JLabel("Applicable courses");
+        qualifyForLbl.setFont(new Font("Arial", Font.BOLD, 16));
+        apsResultLbl = new JLabel("APS Results");
+        apsResultLbl.setFont(new java.awt.Font("Segoe UI", 1, 36));
+        apsResultLbl.setForeground(new Color(0, 102, 102));
+        //apsResultLbl.setFont(new Font("Arial", Font.BOLD, 16));
+        uwcLbl = new JLabel("UWC");
+        uwcLbl.setFont(new Font("Arial", Font.BOLD, 12));
+        //uwcLbl.setVisible(false);
+        uwcScoreLbl = new JLabel("");
+        uwcScoreLbl.setFont(new Font("Arial", Font.BOLD, 12));
+        uctScoreLbl1 = new JLabel("");
+        uctScoreLbl1.setFont(new Font("Arial", Font.BOLD, 12));
+        uctScoreLbl2 = new JLabel("");
+        uctScoreLbl2.setFont(new Font("Arial", Font.BOLD, 12));
+        uctScoreLbl3 = new JLabel("");
+        uctScoreLbl3.setFont(new Font("Arial", Font.BOLD, 12));
+        cputScoreLbl1 = new JLabel("");
+        cputScoreLbl1.setFont(new Font("Arial", Font.BOLD, 12));
+        cputScoreLbl2 = new JLabel("");
+        cputScoreLbl2.setFont(new Font("Arial", Font.BOLD, 12));
+        stellScoreLbl = new JLabel("");
+        stellScoreLbl.setFont(new Font("Arial", Font.BOLD, 12));
+
+        String subjectComboItem1[] = {" ", "Afrikaans", "English", "isiXhosa"};
+        String subjectComboItem2[] = {" ", "Mathematical Literacy", "Mathematics",};
+        String subjectComboItem3[] = {" ", "Accounting", "Agricultural Science", "Business Studies",
+            "Consumer studies", "Dramatic Arts", "Economics", "Engineering graphics and Arts",
+            "Geography", "History", "Information Technology", "Life Sciences", "Music", "Physics", "Religion Studies", "Visual arts"};
+        comboBox1 = new JComboBox(subjectComboItem1);
+        comboBoxFal = new JComboBox(subjectComboItem1);
+        comboBox2 = new JComboBox(subjectComboItem2);
+        comboBox3 = new JComboBox(subjectComboItem3);
+        comboBox4 = new JComboBox(subjectComboItem3);
+        comboBox5 = new JComboBox(subjectComboItem3);
+        comboBox6 = new JComboBox(subjectComboItem3);
+        comboBox7 = new JComboBox(subjectComboItem3);
+        
+        tabbedPane1 = new JTabbedPane();
+
+    }
+
+    public void setGUI() {
+        panelWest.setLayout(new GridLayout(1, 1));
+        panelWestInner.setLayout(new GridLayout(12, 1));
+        panelEast.setLayout(new GridLayout(18, 1));
+        panelEastInner.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelEastInnerFal.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelEastInner2.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelEastInner3.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelEastInner4.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelEastInner5.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelEastInner6.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelEastInner7.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelEastInner8.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //panelEastInnerNorth.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        panelNorth.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        nbtPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+        disadvPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+        resultPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+        resultPane2.setLayout(new GridLayout(18, 2));
+        //resultPane2.setLayout(new FlowLayout(FlowLayout.LEFT));
+        resultPaneUWC.setLayout(new FlowLayout(FlowLayout.LEFT));
+        resultPaneUCT.setLayout(new FlowLayout(FlowLayout.LEFT));
+        resultPaneCPUT.setLayout(new FlowLayout(FlowLayout.LEFT));
+        resultPaneStell.setLayout(new FlowLayout(FlowLayout.LEFT));
+        courseListPane.setLayout(new GridLayout(1, 1));
+        courseListLblPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        courseListBoxPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //courseListBoxPane.setLayout(new GridLayout(2, 4));
+        centerPane.setLayout(new GridLayout(1, 3));
+        //centerPane.setLayout(new BoxLayout(centerPane, BoxLayout.Y_AXIS));
+        apsResultLblPane.setLayout(new FlowLayout(FlowLayout.CENTER));
+        saveBtnPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
+
+        menu.add(m1);
+        menu.add(m2);
+        menu.add(m3);
+        menuBar.add(menu);
+        super.setJMenuBar(menuBar);
+        
+        tableModel = new DefaultTableModel();
+        resultTable = new JTable(tableModel);
+        tableModel.addColumn("UWC");
+        tableModel.addColumn("UCT non-science");
+        tableModel.addColumn("UCT Health Sciences");
+        tableModel.addColumn("UCT Science");
+        tableModel.addColumn("CPUT Method 1");
+        tableModel.addColumn("CPUT Method 2");
+        tableModel.addColumn("Stellenbosch");
+        
+        tableModelUWC = new DefaultTableModel();
+        courseTableUWC = new JTable(tableModelUWC);
+        tableModelUWC.addColumn("UWC");
+        
+        tableModelUCT = new DefaultTableModel();
+        courseTableUCT = new JTable(tableModelUCT);
+        tableModelUCT.addColumn("UCT");
+        
+        tableModelCPUT = new DefaultTableModel();
+        courseTableCput = new JTable(tableModelCPUT);
+        tableModelCPUT.addColumn("CPUT");
+        
+        tableModelSu = new DefaultTableModel();
+        courseTableSu = new JTable(tableModelSu);
+        tableModelSu.addColumn("Stellenbosch University");
+        
+        centerPane.add(panelWest);
+        centerPane.add(tabbedPane1);
+        centerPane.add(resultPane2);
+//centerPane.add(scrollArea);
+        //centerPane.add(scrollAreaUWC);
+        panelWest.add(panelWestInner);
+        panelWestInner.add(btnHome);
+        panelWestInner.add(btnLinks);
+        panelWestInner.add(btnFaq);
+        panelWestInner.add(downloads);
+        panelNorth.add(lblTop);
+        
+        tabbedPane1.add("Calculate APS",scrollArea);
+        tabbedPane1.add("Applicable Courses", scrollAreaUWC);
+        
+        panelEast.add(lblLang);
+        panelEast.add(comboBox1);
+        panelEast.add(textEast1);
+
+        panelEast.add(panelEastInner2);
+        panelEast.add(panelEastInner);
+        panelEast.add(panelEastInnerFal);
+        panelEast.add(panelEastInner3);
+        panelEast.add(panelEastInner4);
+        panelEast.add(panelEastInner5);
+        panelEast.add(panelEastInner6);
+        panelEast.add(panelEastInner7);
+        panelEast.add(panelEastInner8);
+        panelEast.add(nbtPane);
+        panelEast.add(disadvPane);
+        panelEast.add(resultPane);
+        panelEast.add(apsResultLblPane);
+        
+        panelEast.add(resultPaneUWC);
+        panelEast.add(resultPaneUCT);
+        panelEast.add(resultPaneCPUT);
+        panelEast.add(resultPaneStell);
+        panelEast.add(saveBtnPane);
+        
+        /*
+        panelEast.add(resultPaneUWC);
+        panelEast.add(resultPaneUCT);
+        panelEast.add(resultPaneCPUT);
+        panelEast.add(resultPaneStell);
+        panelEast.add(saveBtnPane);*/
+        
+        panelEastInner.add(lblLang);
+        panelEastInner.add(comboBox1);
+        panelEastInner.add(percentage1);
+        panelEastInner.add(textEast1);
+        panelEastInnerFal.add(lblFal);
+        panelEastInnerFal.add(comboBoxFal);
+        panelEastInnerFal.add(percentageFal);
+        panelEastInnerFal.add(textFal);
+        panelEastInner2.add(lblMath);
+        panelEastInner2.add(comboBox2);
+        panelEastInner2.add(percentage2);
+        panelEastInner2.add(textEast2);
+        panelEastInner3.add(lblLo);
+        panelEastInner3.add(percentage3);
+        panelEastInner3.add(textEast3);
+        panelEastInner4.add(lblNextBest1);
+        panelEastInner4.add(comboBox3);
+        panelEastInner4.add(percentage4);
+        panelEastInner4.add(textEast4);
+        panelEastInner5.add(lblNextBest2);
+        panelEastInner5.add(comboBox4);
+        panelEastInner5.add(percentage5);
+        panelEastInner5.add(textEast5);
+        panelEastInner6.add(lblNextBest3);
+        panelEastInner6.add(comboBox5);
+        panelEastInner6.add(percentage6);
+        panelEastInner6.add(textEast6);
+        panelEastInner7.add(additionalSub1);
+        panelEastInner7.add(comboBox6);
+        panelEastInner7.add(percentage7);
+        panelEastInner7.add(textEast7);
+        panelEastInner8.add(additionalSub2);
+        panelEastInner8.add(comboBox7);
+        panelEastInner8.add(percentage8);
+        panelEastInner8.add(textEast8);
+        nbtPane.add(nbtBtn);
+        nbtPane.add(nbtLbl);
+        nbtPane.add(nbtAlScore);
+        nbtPane.add(textNbtAl);
+        nbtPane.add(nbtQlScore);
+        nbtPane.add(textNbtQl);
+        nbtPane.add(nbtMatScore);
+        nbtPane.add(textNbtMat);
+        disadvPane.add(disadvFactorLinkBtn);
+        disadvPane.add(textDisadv);
+        resultPane.add(clearBtn);
+        resultPane.add(calcBtn);
+        
+        //resultPane2.add(new JScrollPane(resultTable));
+        resultPane2.add(apsResultLblPane);
+        resultPane2.add(resultPaneUWC);
+        resultPane2.add(resultPaneUCT);
+        resultPane2.add(resultPaneCPUT);
+        resultPane2.add(resultPaneStell);
+        saveBtnPane.add(saveBtn);
+        
+        resultPaneUWC.add(lblResult);
+        resultPaneUWC.add(uwcScoreLbl);
+        resultPaneUCT.add(lblResult2);
+        resultPaneUCT.add(uctScoreLbl1);
+        resultPaneUCT.add(lblResult3);
+        resultPaneUCT.add(uctScoreLbl2);
+        resultPaneUCT.add(lblResult4);
+        resultPaneUCT.add(uctScoreLbl3);
+        resultPaneCPUT.add(lblResult5);
+        resultPaneCPUT.add(cputScoreLbl1);
+        resultPaneCPUT.add(lblResult6);
+        resultPaneCPUT.add(cputScoreLbl2);
+        resultPaneStell.add(lblResult7);
+        resultPaneStell.add(stellScoreLbl);
+        
+        apsResultLblPane.add(apsResultLbl);
+        saveBtnPane.add(saveBtn);
+        
+        //courseListPane.add(courseListLblPane);
+        courseListPane.add(courseListBoxPane);
+        //courseListLblPane.add(qualifyForLbl);
+        courseListBoxPane.add(courseListLblPane);
+        courseListBoxPane.add(new JScrollPane(courseTableUWC));
+        courseListBoxPane.add(new JScrollPane(courseTableUCT));
+        courseListBoxPane.add(new JScrollPane(courseTableCput));
+        courseListBoxPane.add(new JScrollPane(courseTableSu));
+        
+        this.add(centerPane, BorderLayout.CENTER);
+        this.add(panelWest, BorderLayout.WEST);
+        //this.add(panelWestInner, BoxLayout.Y_AXIS);
+        //this.add(panelEast, BorderLayout.EAST);
+        //this.add(panelEastInnerNorth, FlowLayout.CENTER);
+        this.add(panelNorth, BorderLayout.NORTH);
+
+        calcBtn.addActionListener(this);
+        clearBtn.addActionListener(this);
+        disadvFactorLinkBtn.addActionListener(this);
+        nbtBtn.addActionListener(this);
+        saveBtn.addActionListener(this);
+    }
+
+    double mathNscPercent, physNscPercent, languageNscPercent, secondLanguageNscPercent, accountingNscPercent, loNscPercent, firstBestPercent,
+            secondBestPercent, thirdBestPercent, additionalSub1Percent, additionalSub2Percent, disadvFactor, nbtAl, nbtQl, nbtMat;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals(">Get disadvantage factor<")) {
+            Links openBrowser = new Links();
+            try {
+                openBrowser.openDisadv();
+            } catch (URISyntaxException ex) {
+                System.out.println("URI syntax exception");
+            } catch (IOException ex) {
+                System.out.println("IOE exception");
+            }
+
+        } else if (e.getActionCommand().equals(">Get NBT Score<")) {
+            Links openBrowser = new Links();
+            try {
+                openBrowser.openNBT();
+            } catch (URISyntaxException ex) {
+                System.out.println("URI syntax exception");
+            } catch (IOException ex) {
+                System.out.println("IOE exception");
+            }
+        
+        }
+        double zero = 0;
+        double output, uctOutput, uctOutput2, uwcOutput, suOutput;
+        student1 = new Student(mathNscPercent, physNscPercent, languageNscPercent,
+                secondLanguageNscPercent, accountingNscPercent, loNscPercent, firstBestPercent,
+                secondBestPercent, thirdBestPercent, additionalSub1Percent, additionalSub2Percent,
+                disadvFactor, nbtAl, nbtQl, nbtMat);
+        
+        ApsResults results = new ApsResults();
+        
+        WriteApsToFile write = new WriteApsToFile();
+        
+            student1.setNbtAl(Double.parseDouble(textNbtAl.getText()));
+            student1.setNbtQl(Double.parseDouble(textNbtQl.getText()));
+            student1.setNbtMat(Double.parseDouble(textNbtMat.getText()));
+            student1.setDisadvFactor(Double.parseDouble(textDisadv.getText()));
+
+            student1.setMathNscPercent(Double.parseDouble(textEast2.getText()));
+            student1.setLanguageNscPercent(Double.parseDouble(textEast1.getText()));
+            student1.setSecondLanguageNscPercent(Double.parseDouble(textFal.getText()));
+            student1.setLoNscPercent(Double.parseDouble(textEast3.getText()));
+
+            if (comboBox3.getSelectedItem() == "Physics") {
+                student1.setPhysNscPercent(Double.parseDouble(textEast4.getText()));
+            } else if (comboBox3.getSelectedItem() == "Accounting") {
+                student1.setAccountingNscPercent(Double.parseDouble(textEast4.getText()));
+            } else {
+                if (student1.getPhysNscPercent() <= 0) {
+                    student1.setPhysNscPercent(zero);
+                }
+                if (student1.getAccountingNscPercent() <= 0) {
+                    student1.setAccountingNscPercent(zero);
+                }
+                student1.setFirstBestPercent(Double.parseDouble(textEast4.getText()));
+            }
+
+            if (comboBox4.getSelectedItem() == "Physics") {
+                student1.setPhysNscPercent(Double.parseDouble(textEast5.getText()));
+            } else if (comboBox4.getSelectedItem() == "Accounting") {
+                student1.setAccountingNscPercent(Double.parseDouble(textEast5.getText()));
+            } else {
+                if (student1.getPhysNscPercent() <= 0) {
+                    student1.setPhysNscPercent(zero);
+                }
+                if (student1.getAccountingNscPercent() <= 0) {
+                    student1.setAccountingNscPercent(zero);
+                }
+                student1.setSecondBestPercent(Double.parseDouble(textEast5.getText()));
+            }
+
+            if (comboBox5.getSelectedItem() == "Physics") {
+                student1.setPhysNscPercent(Double.parseDouble(textEast6.getText()));
+            } else if (comboBox5.getSelectedItem() == "Accounting") {
+                student1.setAccountingNscPercent(Double.parseDouble(textEast6.getText()));
+            } else {
+                if (student1.getPhysNscPercent() <= 0) {
+                    student1.setPhysNscPercent(zero);
+                }
+                if (student1.getAccountingNscPercent() <= 0) {
+                    student1.setAccountingNscPercent(zero);
+                }
+                student1.setThirdBestPercent(Double.parseDouble(textEast6.getText()));
+            }
+
+            if (comboBox6.getSelectedItem() == "Physics") {
+                student1.setPhysNscPercent(Double.parseDouble(textEast7.getText()));
+            } else if (comboBox6.getSelectedItem() == "Accounting") {
+                student1.setAccountingNscPercent(Double.parseDouble(textEast7.getText()));
+            } else {
+                if (student1.getPhysNscPercent() <= 0) {
+                    student1.setPhysNscPercent(zero);
+                }
+                if (student1.getAccountingNscPercent() <= 0) {
+                    student1.setAccountingNscPercent(zero);
+                }
+                student1.setAdditionalSub1Percent(Double.parseDouble(textEast7.getText()));
+            }
+
+            if (comboBox7.getSelectedItem() == "Physics") {
+                student1.setPhysNscPercent(Double.parseDouble(textEast8.getText()));
+            } else if (comboBox7.getSelectedItem() == "Accounting") {
+                student1.setAccountingNscPercent(Double.parseDouble(textEast8.getText()));
+            } else {
+                if (student1.getPhysNscPercent() <= 0) {
+                    student1.setPhysNscPercent(zero);
+                }
+                if (student1.getAccountingNscPercent() <= 0) {
+                    student1.setAccountingNscPercent(zero);
+                }
+                student1.setAdditionalSub2Percent(Double.parseDouble(textEast8.getText()));
+            }
+        
+            if (e.getActionCommand().equals("Go")) {
+            CPUTPointsCalculation cputPoints = new CPUTPointsCalculation();
+            output = cputPoints.cputMethod1(student1);
+            cputScoreLbl1.setText(String.valueOf(output));
+            results.setCputMeth1(output);
+
+            if (student1.getAccountingNscPercent() > 0 && student1.getMathNscPercent() > 0) {
+                output = cputPoints.cputMethod3(student1);
+                cputScoreLbl2.setText(String.valueOf(output));
+                results.setCputMeth3(output);
+            }
+
+            UCTPointsCalculation uctPoints = new UCTPointsCalculation();
+            uctOutput = uctPoints.UCTPointsCalculation(student1);
+            uctScoreLbl1.setText(String.valueOf(uctOutput));
+            results.setUctNonSc(uctOutput);
+
+            if (student1.getPhysNscPercent() != 0) {
+                uctOutput = uctPoints.uctHealthSciences(student1);
+                uctOutput2 = uctPoints.uctFacultyScience(student1);
+                uctScoreLbl2.setText(String.valueOf(uctOutput));
+                uctScoreLbl3.setText(String.valueOf(uctOutput2));
+                results.setUctHealthSc(uctOutput);
+                results.setUctSc(uctOutput2);
+            }
+
+            UWCPointsCalculation uwcPoints = new UWCPointsCalculation();
+            uwcOutput = uwcPoints.UWCPointsCalculation(student1);
+            uwcScoreLbl.setText(String.valueOf(uwcOutput));
+            results.setUwc(uwcOutput);
+            
+            SUaggregateCalculation suPoints = new SUaggregateCalculation();
+            suOutput = suPoints.SUaggregate(student1);
+            stellScoreLbl.setText(String.valueOf(suOutput));
+            results.setStell(suOutput);
+
+            /*tableModel.insertRow(0, new Object[]{String.valueOf(results.getUwc()), String.valueOf(results.getUctNonSc()),
+            String.valueOf(results.getUctHealthSc()), String.valueOf(results.getUctSc()), String.valueOf(results.getCputMeth1()), 
+                    String.valueOf(results.getCputMeth3()), String.valueOf(results.getStell())});*/
+            
+            //Can create a populate tables method
+            ArrayList <String> uwcCourseData = uwcPoints.getQualify();
+            int arrLength = uwcCourseData.size();
+            String [] uwcCourseDataArr = new String [arrLength];
+            
+            for(int j = 0; j < arrLength; j++){
+                uwcCourseDataArr[j] = uwcCourseData.get(j);
+            }
+            
+            for(int i = 0; i < uwcCourseData.size(); i++){
+                tableModelUWC.insertRow(i, new Object[]{String.valueOf(uwcCourseDataArr[i])});
+                }
+            
+            ArrayList <String> uctCourseData = uctPoints.getUctNonScienceQualifyList();
+            int uctCourseDataArrLength = uctCourseData.size();
+            String [] uctCourseDataArr = new String [uctCourseDataArrLength];
+            for(int k = 0; k < uctCourseDataArrLength; k++){
+                uctCourseDataArr[k] = uctCourseData.get(k);
+            }
+            for(int l = 0; l < uctCourseData.size(); l ++){
+                tableModelUCT.insertRow(l, new Object[]{String.valueOf(uctCourseDataArr[l])});
+            }
+            
+            ArrayList <String> uctCourseData2 = uctPoints.getUctHealthScienceQualifyList();
+            int uctCourseDataArrLength2 = uctCourseData2.size();
+            String [] uctCourseDataArr2 = new String [uctCourseDataArrLength2];
+            for(int m = 0; m < uctCourseDataArrLength2; m++){
+                uctCourseDataArr2[m] = uctCourseData2.get(m);
+            }
+            for(int o = 0; o < uctCourseData2.size(); o++){
+                tableModelUCT.addRow(new Object[]{String.valueOf(uctCourseDataArr2[o])});
+            }
+            
+            ArrayList <String> uctCourseData3 = uctPoints.getUctScienceQualifyList();
+            int uctCourseDataArrLength3 = uctCourseData3.size();
+            String [] uctCourseDataArr3 = new String [uctCourseDataArrLength3];
+            for(int p = 0; p < uctCourseDataArrLength3; p++){
+                uctCourseDataArr3[p] = uctCourseData3.get(p);
+            }
+            for(int q = 0; q < uctCourseData3.size(); q++){
+                tableModelUCT.addRow(new Object[]{String.valueOf(uctCourseDataArr3[q])});
+            }
+            
+            ArrayList <String> cputCourseData = cputPoints.getCputMethod1QualifyList();
+            int cputCourseDataArrLength = cputCourseData.size();
+            String [] cputCourseDataArr = new String [cputCourseDataArrLength];
+            for(int r = 0; r < cputCourseDataArrLength; r++){
+                cputCourseDataArr[r] = cputCourseData.get(r);
+            }
+            for(int s = 0; s < cputCourseData.size(); s++){
+                tableModelCPUT.addRow(new Object [] {String.valueOf(cputCourseDataArr[s])});
+            }
+            
+            ArrayList <String> suCourseData = suPoints.getStelliQualifyList();
+            int suCourseDataArrLength = suCourseData.size();
+            String [] suCourseDataArr = new String [suCourseDataArrLength];
+            for(int t = 0; t < suCourseDataArrLength; t++){
+                suCourseDataArr[t] = suCourseData.get(t);
+            }
+            for(int u = 0; u < suCourseData.size(); u++){
+                tableModelSu.addRow(new Object [] {String.valueOf(suCourseDataArr[u])});
+            }
+            
+        
+        }else if (e.getActionCommand().equals("Save")){
+            write.writeToFile(student1);
+            JOptionPane.showMessageDialog(null, "Save success");
+
+        } else if (e.getActionCommand().equals("Clear")) {
+            textEast1.setText("");
+            textEast2.setText("");
+            textFal.setText("");
+            textEast3.setText("");
+            textEast4.setText("");
+            textEast5.setText("");
+            textEast6.setText("");
+            textEast7.setText("");
+            textEast8.setText("");
+            resultText.setText("");
+            resultText2.setText("");
+            resultText3.setText("");
+            resultText4.setText("");
+            resultText5.setText("");
+            resultText6.setText("");
+            resultText7.setText("");
+        }
+    }
+    
+    public void populateTables(){
+        
+    }
+    
+    public static void main(String[] args) {
+
+        SDGuiDemo guiTest = new SDGuiDemo();
+        guiTest.pack();
+        guiTest.setSize(1500, 950);
+        guiTest.setVisible(true);
+        guiTest.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        guiTest.setGUI();
+    }
+    
+}
